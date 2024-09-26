@@ -31,7 +31,7 @@ SET library_id = CASE
 
 # Iterate over each row in the data to construct the CASE statements
 for _, row in data.iterrows():
-    query += f"    WHEN id = {row['old_id']} THEN {row['new_id']}\n"
+    query += f"    WHEN library_id = {row['old_id']} THEN {row['new_id']}\n"
 
 # Close the CASE statement and add the WHERE clause to filter based on old IDs
 old_ids = ', '.join(map(str, data['old_id'].unique()))
