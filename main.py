@@ -35,19 +35,20 @@ for _, row in data.iterrows():
 
 # Close the CASE statement and add the WHERE clause to filter based on old IDs
 old_ids = ', '.join(map(str, data['old_id'].unique()))
-query += f"END\nWHERE id IN ({old_ids}),\n"
 
-query += f"and content_id <= {last_id}\n"
-query += "and version = 'new';\n"
+if time == "1":
+    query += f"END\nWHERE id IN ({old_ids}),\n"
 
-query += f"""
-DELETE FROM h5p_contents_libraries
-WHERE version = 'old'
-AND content_id <= {last_id};
+    query += f"and content_id <= {last_id}\n"
+    query += "and version = 'new';\n"
 
-"""
+    query += f"""
+    DELETE FROM h5p_contents_libraries
+    WHERE version = 'old'
+    AND content_id <= {last_id};
+    """
 
-query += "ALTER TABLE `h5p_contents_libraries` DROP `version`;"
+    query += "ALTER TABLE `h5p_contents_libraries` DROP `version`;"
 
 # Output the generated SQL query
 output_file = f"{file_path}{'1' if time == '1' else '2'}.txt"
